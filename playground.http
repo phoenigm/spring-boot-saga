@@ -1,0 +1,22 @@
+POST http://localhost:8082/customers
+Content-Type: application/json
+
+{
+  "creditLimit": {
+    "amount": 100
+  },
+  "name": "Azamat Richardson"
+}
+
+###
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "orderTotal": {
+    "amount": 4
+  }
+}
+
+
