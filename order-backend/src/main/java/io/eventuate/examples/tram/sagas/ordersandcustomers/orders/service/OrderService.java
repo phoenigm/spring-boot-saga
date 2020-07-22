@@ -11,26 +11,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class OrderService {
 
-  @Autowired
-  private OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
-  @Autowired
-  private SagaInstanceFactory sagaInstanceFactory;
+    @Autowired
+    private SagaInstanceFactory sagaInstanceFactory;
 
-  @Autowired
-  private CreateOrderSaga createOrderSaga;
+    @Autowired
+    private CreateOrderSaga createOrderSaga;
 
-  public OrderService(OrderRepository orderRepository, SagaInstanceFactory sagaInstanceFactory, CreateOrderSaga createOrderSaga) {
-    this.orderRepository = orderRepository;
-    this.sagaInstanceFactory = sagaInstanceFactory;
-    this.createOrderSaga = createOrderSaga;
-  }
+    public OrderService(OrderRepository orderRepository, SagaInstanceFactory sagaInstanceFactory, CreateOrderSaga createOrderSaga) {
+        this.orderRepository = orderRepository;
+        this.sagaInstanceFactory = sagaInstanceFactory;
+        this.createOrderSaga = createOrderSaga;
+    }
 
-  @Transactional
-  public Order createOrder(OrderDetails orderDetails) {
-    CreateOrderSagaData data = new CreateOrderSagaData(orderDetails);
-    sagaInstanceFactory.create(createOrderSaga, data);
-    return orderRepository.findById(data.getOrderId()).get();
-  }
+    @Transactional
+    public Order createOrder(OrderDetails orderDetails) {
+        CreateOrderSagaData data = new CreateOrderSagaData(orderDetails);
+        sagaInstanceFactory.create(createOrderSaga, data);
+        return orderRepository.findById(data.getOrderId()).get();
+    }
 
 }

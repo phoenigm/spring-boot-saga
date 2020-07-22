@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(OrderDestinations.class)
 public class OrderConfiguration {
-  @Bean
-  public RouteLocator orderProxyRouting(RouteLocatorBuilder builder, OrderDestinations orderDestinations) {
-    return builder.routes()
-            .route(r -> r.path("/orders/customer/**").and().method("GET").uri(orderDestinations.getOrderServiceUrl()))
-            .build();
-  }
+    @Bean
+    public RouteLocator orderProxyRouting(RouteLocatorBuilder builder, OrderDestinations orderDestinations) {
+        return builder.routes()
+                .route(r -> r.path("/orders/customer/**").and().method("GET").uri(orderDestinations.getOrderServiceUrl()))
+                .build();
+    }
 }

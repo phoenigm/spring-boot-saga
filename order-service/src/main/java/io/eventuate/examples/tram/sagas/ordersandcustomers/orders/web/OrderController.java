@@ -18,35 +18,35 @@ import java.util.stream.Collectors;
 @RestController
 public class OrderController {
 
-  private OrderService orderService;
-  private OrderRepository orderRepository;
+    private OrderService orderService;
+    private OrderRepository orderRepository;
 
-  @Autowired
-  public OrderController(OrderService orderService, OrderRepository orderRepository) {
-    this.orderService = orderService;
-    this.orderRepository = orderRepository;
-  }
+    @Autowired
+    public OrderController(OrderService orderService, OrderRepository orderRepository) {
+        this.orderService = orderService;
+        this.orderRepository = orderRepository;
+    }
 
-  @RequestMapping(value = "/orders", method = RequestMethod.POST)
-  public CreateOrderResponse createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
-    Order order = orderService.createOrder(new OrderDetails(createOrderRequest.getCustomerId(), createOrderRequest.getOrderTotal()));
-    return new CreateOrderResponse(order.getId());
-  }
+    @RequestMapping(value = "/orders", method = RequestMethod.POST)
+    public CreateOrderResponse createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+        Order order = orderService.createOrder(new OrderDetails(createOrderRequest.getCustomerId(), createOrderRequest.getOrderTotal()));
+        return new CreateOrderResponse(order.getId());
+    }
 
-  @RequestMapping(value="/orders/{orderId}", method= RequestMethod.GET)
-  public ResponseEntity<GetOrderResponse> getOrder(@PathVariable Long orderId) {
-    return orderRepository
-            .findById(orderId)
-            .map(o -> new ResponseEntity<>(new GetOrderResponse(o.getId(), o.getState(), o.getRejectionReason()), HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-  }
+    @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET)
+    public ResponseEntity<GetOrderResponse> getOrder(@PathVariable Long orderId) {
+        return orderRepository
+                .findById(orderId)
+                .map(o -> new ResponseEntity<>(new GetOrderResponse(o.getId(), o.getState(), o.getRejectionReason()), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
-  @RequestMapping(value="/orders/customer/{customerId}", method= RequestMethod.GET)
-  public ResponseEntity<List<GetOrderResponse>> getOrdersByCustomerId(@PathVariable Long customerId) {
-    return new ResponseEntity<List<GetOrderResponse>>(orderRepository
-            .findAllByOrderDetailsCustomerId(customerId)
-            .stream()
-            .map(o -> new GetOrderResponse(o.getId(), o.getState(), o.getRejectionReason()))
-            .collect(Collectors.toList()), HttpStatus.OK);
-  }
+    @RequestMapping(value = "/orders/customer/{customerId}", method = RequestMethod.GET)
+    public ResponseEntity<List<GetOrderResponse>> getOrdersByCustomerId(@PathVariable Long customerId) {
+        return new ResponseEntity<List<GetOrderResponse>>(orderRepository
+                .findAllByOrderDetailsCustomerId(customerId)
+                .stream()
+                .map(o -> new GetOrderResponse(o.getId(), o.getState(), o.getRejectionReason()))
+                .collect(Collectors.toList()), HttpStatus.OK);
+    }
 }

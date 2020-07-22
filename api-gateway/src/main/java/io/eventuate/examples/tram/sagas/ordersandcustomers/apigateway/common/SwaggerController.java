@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SwaggerController {
-  @GetMapping("/swagger-ui.html")
-  public Resource getFile() {
-    return new ClassPathResource("META-INF/swagger-ui/index.html");
-  }
+    @GetMapping("/swagger-ui.html")
+    public Resource getFile() {
+        return new ClassPathResource("META-INF/swagger-ui/index.html");
+    }
 }

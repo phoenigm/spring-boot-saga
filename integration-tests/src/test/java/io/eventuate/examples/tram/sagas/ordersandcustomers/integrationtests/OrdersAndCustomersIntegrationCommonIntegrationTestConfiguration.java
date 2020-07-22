@@ -22,11 +22,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 public class OrdersAndCustomersIntegrationCommonIntegrationTestConfiguration {
 
-  @Bean
-  public TramCommandsAndEventsIntegrationData tramCommandsAndEventsIntegrationData() {
-    return new TramCommandsAndEventsIntegrationData();
-  }
-
+    @Bean
+    public TramCommandsAndEventsIntegrationData tramCommandsAndEventsIntegrationData() {
+        return new TramCommandsAndEventsIntegrationData();
+    }
 
 
 }

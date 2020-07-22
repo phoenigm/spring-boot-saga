@@ -18,14 +18,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Import({SagaOrchestratorConfiguration.class, OptimisticLockingDecoratorConfiguration.class})
 public class OrderConfiguration {
 
-  @Bean
-  public OrderService orderService(OrderRepository orderRepository, SagaInstanceFactory sagaInstanceFactory, CreateOrderSaga createOrderSaga) {
-    return new OrderService(orderRepository, sagaInstanceFactory, createOrderSaga);
-  }
+    @Bean
+    public OrderService orderService(OrderRepository orderRepository, SagaInstanceFactory sagaInstanceFactory, CreateOrderSaga createOrderSaga) {
+        return new OrderService(orderRepository, sagaInstanceFactory, createOrderSaga);
+    }
 
-  @Bean
-  public CreateOrderSaga createOrderSaga(OrderRepository orderRepository) {
-    return new CreateOrderSaga(orderRepository);
-  }
+    @Bean
+    public CreateOrderSaga createOrderSaga(OrderRepository orderRepository) {
+        return new CreateOrderSaga(orderRepository);
+    }
 
 }

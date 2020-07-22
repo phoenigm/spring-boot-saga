@@ -2,20 +2,20 @@ package io.eventuate.examples.tram.sagas.ordersandcustomers.customers.webapi;
 
 
 public class CreateCustomerResponse {
-  private Long customerId;
+    private Long customerId;
 
-  public CreateCustomerResponse() {
-  }
+    public CreateCustomerResponse() {
+    }
 
-  public CreateCustomerResponse(Long customerId) {
-    this.customerId = customerId;
-  }
+    public CreateCustomerResponse(Long customerId) {
+        this.customerId = customerId;
+    }
 
-  public Long getCustomerId() {
-    return customerId;
-  }
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-  public void setCustomerId(Long customerId) {
-    this.customerId = customerId;
-  }
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 }

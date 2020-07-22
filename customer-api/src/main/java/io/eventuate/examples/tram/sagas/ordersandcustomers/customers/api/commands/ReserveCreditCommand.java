@@ -4,42 +4,42 @@ import io.eventuate.examples.tram.sagas.ordersandcustomers.commondomain.Money;
 import io.eventuate.tram.commands.common.Command;
 
 public class ReserveCreditCommand implements Command {
-  private Long orderId;
-  private Money orderTotal;
-  private long customerId;
+    private Long orderId;
+    private Money orderTotal;
+    private long customerId;
 
-  public ReserveCreditCommand() {
-  }
+    public ReserveCreditCommand() {
+    }
 
-  public ReserveCreditCommand(Long customerId, Long orderId, Money orderTotal) {
-    this.customerId = customerId;
-    this.orderId = orderId;
-    this.orderTotal = orderTotal;
-  }
+    public ReserveCreditCommand(Long customerId, Long orderId, Money orderTotal) {
+        this.customerId = customerId;
+        this.orderId = orderId;
+        this.orderTotal = orderTotal;
+    }
 
-  public Money getOrderTotal() {
-    return orderTotal;
-  }
+    public Money getOrderTotal() {
+        return orderTotal;
+    }
 
-  public void setOrderTotal(Money orderTotal) {
-    this.orderTotal = orderTotal;
-  }
+    public void setOrderTotal(Money orderTotal) {
+        this.orderTotal = orderTotal;
+    }
 
-  public Long getOrderId() {
+    public Long getOrderId() {
 
-    return orderId;
-  }
+        return orderId;
+    }
 
-  public void setOrderId(Long orderId) {
+    public void setOrderId(Long orderId) {
 
-    this.orderId = orderId;
-  }
+        this.orderId = orderId;
+    }
 
-  public long getCustomerId() {
-    return customerId;
-  }
+    public long getCustomerId() {
+        return customerId;
+    }
 
-  public void setCustomerId(long customerId) {
-    this.customerId = customerId;
-  }
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
 }

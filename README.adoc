@@ -1,7 +1,6 @@
-
 = Eventuate Tram Sagas Customers and Orders
 
-This application  demonstrates how to maintain data consistency in an Java/JDBC/JPA-based  microservice architecture using http://microservices.io/patterns/data/saga.html[sagas].
+This application demonstrates how to maintain data consistency in an Java/JDBC/JPA-based microservice architecture using http://microservices.io/patterns/data/saga.html[sagas].
 
 The application consists of two services:
 
@@ -43,7 +42,8 @@ It consists of the follow steps:
 . The `Order Service` creates an `Order` in a pending state
 . The `Order Service` creates a `CreateOrderSaga` to coordinate the creation of the order.
 . The `CreateOrderSaga` sends a `ReserveCredit` command to the `CustomerService`
-. The `Customer Service` receives the command and attempts to reserve credit for that `Order`. It replies with a message indicating the outcome.
+. The `Customer Service` receives the command and attempts to reserve credit for that `Order`.
+It replies with a message indicating the outcome.
 . The `CreateOrderSaga` receives the reply
 . It send either an `ApproveOrder` or a `RejectOrder` command to the `OrderService`
 . The `Order Service` receives the command and changes state of the order to either `approved` or `rejected`.

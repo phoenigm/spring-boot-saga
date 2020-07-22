@@ -7,14 +7,14 @@ import javax.validation.constraints.NotNull;
 @ConfigurationProperties(prefix = "customer.destinations")
 public class CustomerDestinations {
 
-  @NotNull
-  private String customerServiceUrl;
+    @NotNull
+    private String customerServiceUrl;
 
-  public String getCustomerServiceUrl() {
-    return customerServiceUrl;
-  }
+    public String getCustomerServiceUrl() {
+        return customerServiceUrl;
+    }
 
-  public void setCustomerServiceUrl(String customerServiceUrl) {
-    this.customerServiceUrl = customerServiceUrl;
-  }
+    public void setCustomerServiceUrl(String customerServiceUrl) {
+        this.customerServiceUrl = customerServiceUrl;
+    }
 }

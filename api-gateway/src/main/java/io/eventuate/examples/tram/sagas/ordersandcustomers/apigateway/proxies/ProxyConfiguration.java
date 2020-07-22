@@ -26,32 +26,32 @@ import java.time.Duration;
 @Import({CommonConfiguration.class, OrderConfiguration.class, CustomerConfiguration.class})
 public class ProxyConfiguration {
 
-  private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Value("${apigateway.timeout.millis}")
-  private long apiGatewayTimeoutMillis;
+    @Value("${apigateway.timeout.millis}")
+    private long apiGatewayTimeoutMillis;
 
-  @Bean
-  public OrderServiceProxy orderServiceProxy(OrderDestinations orderDestinations, WebClient client, CircuitBreakerRegistry circuitBreakerRegistry, TimeLimiterRegistry timeLimiterRegistry) {
-    return new OrderServiceProxy(orderDestinations, client, circuitBreakerRegistry, timeLimiterRegistry);
-  }
+    @Bean
+    public OrderServiceProxy orderServiceProxy(OrderDestinations orderDestinations, WebClient client, CircuitBreakerRegistry circuitBreakerRegistry, TimeLimiterRegistry timeLimiterRegistry) {
+        return new OrderServiceProxy(orderDestinations, client, circuitBreakerRegistry, timeLimiterRegistry);
+    }
 
-  @Bean
-  public CustomerServiceProxy customerServiceProxy(CustomerDestinations customerDestinations, WebClient client, CircuitBreakerRegistry circuitBreakerRegistry, TimeLimiterRegistry timeLimiterRegistry) {
-    return new CustomerServiceProxy(client, circuitBreakerRegistry, customerDestinations.getCustomerServiceUrl(), timeLimiterRegistry);
-  }
+    @Bean
+    public CustomerServiceProxy customerServiceProxy(CustomerDestinations customerDestinations, WebClient client, CircuitBreakerRegistry circuitBreakerRegistry, TimeLimiterRegistry timeLimiterRegistry) {
+        return new CustomerServiceProxy(client, circuitBreakerRegistry, customerDestinations.getCustomerServiceUrl(), timeLimiterRegistry);
+    }
 
-  @Bean
-  public TimeLimiterRegistry timeLimiterRegistry() {
-    logger.info("apiGatewayTimeoutMillis={}", apiGatewayTimeoutMillis);
-    return TimeLimiterRegistry.of(TimeLimiterConfig.custom()
-            .timeoutDuration(Duration.ofMillis(apiGatewayTimeoutMillis)).build());
-  }
+    @Bean
+    public TimeLimiterRegistry timeLimiterRegistry() {
+        logger.info("apiGatewayTimeoutMillis={}", apiGatewayTimeoutMillis);
+        return TimeLimiterRegistry.of(TimeLimiterConfig.custom()
+                .timeoutDuration(Duration.ofMillis(apiGatewayTimeoutMillis)).build());
+    }
 
-  @Bean
-  public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
-    return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
-            .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-            .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(apiGatewayTimeoutMillis)).build()).build());
-  }
+    @Bean
+    public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
+        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(apiGatewayTimeoutMillis)).build()).build());
+    }
 }

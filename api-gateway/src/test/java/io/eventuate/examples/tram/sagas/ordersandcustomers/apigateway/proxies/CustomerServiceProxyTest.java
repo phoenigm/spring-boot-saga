@@ -27,62 +27,62 @@ import static org.junit.Assert.assertEquals;
 @AutoConfigureWireMock(port = 0)
 public class CustomerServiceProxyTest {
 
-  @Configuration
-  @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-  @Import(ProxyConfiguration.class)
-  static public class Config {
-  }
+    @Autowired
+    private CustomerServiceProxy customerServiceProxy;
 
-  @Autowired
-  private CustomerServiceProxy customerServiceProxy;
+    @Test
+    public void shouldCallCustomerService() throws JSONException {
 
-  @Test
-  public void shouldCallCustomerService() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("customerId", 101);
+        json.put("name", "Fred");
+        json.put("creditLimit", "12.34");
 
-    JSONObject json = new JSONObject();
-    json.put("customerId", 101);
-    json.put("name", "Fred");
-    json.put("creditLimit", "12.34");
+        String expectedResponse = json.toString();
 
-    String expectedResponse = json.toString();
-
-    stubFor(get(urlEqualTo("/customers/101"))
-            .willReturn(aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(expectedResponse)));
+        stubFor(get(urlEqualTo("/customers/101"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(expectedResponse)));
 
 
-    GetCustomerResponse customer = customerServiceProxy.findCustomerById("101").block().get();
+        GetCustomerResponse customer = customerServiceProxy.findCustomerById("101").block().get();
 
-    assertEquals(new Long(101L), customer.getCustomerId());
+        assertEquals(new Long(101L), customer.getCustomerId());
 
-    verify(getRequestedFor(urlMatching("/customers/101")));
-  }
+        verify(getRequestedFor(urlMatching("/customers/101")));
+    }
 
-  @Test(expected = CallNotPermittedException.class)
-  public void shouldTimeoutAndTripCircuitBreaker() {
+    @Test(expected = CallNotPermittedException.class)
+    public void shouldTimeoutAndTripCircuitBreaker() {
 
-    String expectedResponse = "{}";
+        String expectedResponse = "{}";
 
-    stubFor(get(urlEqualTo("/customers/99"))
-            .willReturn(aResponse()
-                    .withStatus(500)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(expectedResponse)));
+        stubFor(get(urlEqualTo("/customers/99"))
+                .willReturn(aResponse()
+                        .withStatus(500)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(expectedResponse)));
 
 
-    IntStream.range(0, 100).forEach(i -> {
-              try {
-                customerServiceProxy.findCustomerById("99").block();
-              } catch (CallNotPermittedException e) {
-                throw e;
-              } catch (UnknownProxyException e) {
-                //
-              }
-            }
-    );
+        IntStream.range(0, 100).forEach(i -> {
+                    try {
+                        customerServiceProxy.findCustomerById("99").block();
+                    } catch (CallNotPermittedException e) {
+                        throw e;
+                    } catch (UnknownProxyException e) {
+                        //
+                    }
+                }
+        );
 
-    verify(getRequestedFor(urlMatching("/customers/99")));
-  }
+        verify(getRequestedFor(urlMatching("/customers/99")));
+    }
+
+    @Configuration
+    @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+    @Import(ProxyConfiguration.class)
+    static public class Config {
+    }
 }

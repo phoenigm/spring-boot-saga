@@ -16,29 +16,29 @@ import static io.eventuate.tram.commands.consumer.CommandHandlerReplyBuilder.wit
 
 public class CustomerCommandHandler {
 
-  private CustomerService customerService;
+    private CustomerService customerService;
 
-  public CustomerCommandHandler(CustomerService customerService) {
-    this.customerService = customerService;
-  }
-
-  public CommandHandlers commandHandlerDefinitions() {
-    return SagaCommandHandlersBuilder
-            .fromChannel("customerService")
-            .onMessage(ReserveCreditCommand.class, this::reserveCredit)
-            .build();
-  }
-
-  public Message reserveCredit(CommandMessage<ReserveCreditCommand> cm) {
-    ReserveCreditCommand cmd = cm.getCommand();
-    try {
-      customerService.reserveCredit(cmd.getCustomerId(), cmd.getOrderId(), cmd.getOrderTotal());
-      return withSuccess(new CustomerCreditReserved());
-    } catch (CustomerNotFoundException e) {
-      return withFailure(new CustomerNotFound());
-    } catch (CustomerCreditLimitExceededException e) {
-      return withFailure(new CustomerCreditLimitExceeded());
+    public CustomerCommandHandler(CustomerService customerService) {
+        this.customerService = customerService;
     }
-  }
+
+    public CommandHandlers commandHandlerDefinitions() {
+        return SagaCommandHandlersBuilder
+                .fromChannel("customerService")
+                .onMessage(ReserveCreditCommand.class, this::reserveCredit)
+                .build();
+    }
+
+    public Message reserveCredit(CommandMessage<ReserveCreditCommand> cm) {
+        ReserveCreditCommand cmd = cm.getCommand();
+        try {
+            customerService.reserveCredit(cmd.getCustomerId(), cmd.getOrderId(), cmd.getOrderTotal());
+            return withSuccess(new CustomerCreditReserved());
+        } catch (CustomerNotFoundException e) {
+            return withFailure(new CustomerNotFound());
+        } catch (CustomerCreditLimitExceededException e) {
+            return withFailure(new CustomerCreditLimitExceeded());
+        }
+    }
 
 }

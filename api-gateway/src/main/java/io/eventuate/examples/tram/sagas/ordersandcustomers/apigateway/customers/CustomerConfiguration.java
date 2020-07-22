@@ -17,20 +17,20 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @EnableConfigurationProperties(CustomerDestinations.class)
 public class CustomerConfiguration {
 
-  @Bean
-  public RouterFunction<ServerResponse> orderHistoryHandlerRouting(OrderHistoryHandlers orderHistoryHandlers) {
-    return RouterFunctions.route(GET("/customers/{customerId}/orderhistory"), orderHistoryHandlers::getOrderHistory);
-  }
+    @Bean
+    public RouterFunction<ServerResponse> orderHistoryHandlerRouting(OrderHistoryHandlers orderHistoryHandlers) {
+        return RouterFunctions.route(GET("/customers/{customerId}/orderhistory"), orderHistoryHandlers::getOrderHistory);
+    }
 
-  @Bean
-  public OrderHistoryHandlers orderHistoryHandlers(OrderServiceProxy orderService, CustomerServiceProxy customerService) {
-    return new OrderHistoryHandlers(orderService, customerService);
-  }
+    @Bean
+    public OrderHistoryHandlers orderHistoryHandlers(OrderServiceProxy orderService, CustomerServiceProxy customerService) {
+        return new OrderHistoryHandlers(orderService, customerService);
+    }
 
-  @Bean
-  public RouteLocator customerProxyRouting(RouteLocatorBuilder builder, CustomerDestinations customerDestinations) {
-    return builder.routes()
-            .route(r -> r.path("/customers/**").and().method("GET").uri(customerDestinations.getCustomerServiceUrl()))
-            .build();
-  }
+    @Bean
+    public RouteLocator customerProxyRouting(RouteLocatorBuilder builder, CustomerDestinations customerDestinations) {
+        return builder.routes()
+                .route(r -> r.path("/customers/**").and().method("GET").uri(customerDestinations.getCustomerServiceUrl()))
+                .build();
+    }
 }

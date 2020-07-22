@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 @ComponentScan
 public class CustomersServiceMain {
 
-  public static void main(String[] args) {
-    SpringApplication.run(CustomersServiceMain.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(CustomersServiceMain.class, args);
+    }
 }

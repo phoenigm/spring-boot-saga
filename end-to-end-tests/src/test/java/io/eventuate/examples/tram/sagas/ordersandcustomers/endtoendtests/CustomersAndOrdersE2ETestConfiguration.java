@@ -13,18 +13,18 @@ import java.util.List;
 @Configuration
 public class CustomersAndOrdersE2ETestConfiguration {
 
-  @Bean
-  public RestTemplate restTemplate(HttpMessageConverters converters) {
-    RestTemplate restTemplate = new RestTemplate();
-    HttpMessageConverter<?> httpMessageConverter = converters.getConverters().get(0);
-    List<? extends HttpMessageConverter<?>> httpMessageConverters = Arrays.asList(new MappingJackson2HttpMessageConverter());
-    restTemplate.setMessageConverters((List<HttpMessageConverter<?>>) httpMessageConverters);
-    return restTemplate;
-  }
+    @Bean
+    public RestTemplate restTemplate(HttpMessageConverters converters) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpMessageConverter<?> httpMessageConverter = converters.getConverters().get(0);
+        List<? extends HttpMessageConverter<?>> httpMessageConverters = Arrays.asList(new MappingJackson2HttpMessageConverter());
+        restTemplate.setMessageConverters((List<HttpMessageConverter<?>>) httpMessageConverters);
+        return restTemplate;
+    }
 
-  @Bean
-  public HttpMessageConverters customConverters() {
-    HttpMessageConverter<?> additional = new MappingJackson2HttpMessageConverter();
-    return new HttpMessageConverters(additional);
-  }
+    @Bean
+    public HttpMessageConverters customConverters() {
+        HttpMessageConverter<?> additional = new MappingJackson2HttpMessageConverter();
+        return new HttpMessageConverters(additional);
+    }
 }

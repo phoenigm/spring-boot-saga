@@ -14,12 +14,12 @@ import javax.sql.DataSource;
 @Import({OrdersAndCustomersIntegrationCommonIntegrationTestConfiguration.class, TramInMemoryConfiguration.class})
 public class OrdersAndCustomersInMemoryIntegrationTestConfiguration {
 
-  @Bean
-  @Primary
-  public DataSource dataSource() {
-    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    return builder.setType(EmbeddedDatabaseType.H2).addScripts("eventuate-tram-embedded-schema.sql", "eventuate-tram-sagas-embedded.sql").build();
-  }
+    @Bean
+    @Primary
+    public DataSource dataSource() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        return builder.setType(EmbeddedDatabaseType.H2).addScripts("eventuate-tram-embedded-schema.sql", "eventuate-tram-sagas-embedded.sql").build();
+    }
 
 
 }

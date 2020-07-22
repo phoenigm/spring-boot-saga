@@ -17,33 +17,33 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 public class OrderHistoryHandlers {
 
-  private OrderServiceProxy orderService;
-  private CustomerServiceProxy customerService;
+    private OrderServiceProxy orderService;
+    private CustomerServiceProxy customerService;
 
-  public OrderHistoryHandlers(OrderServiceProxy orderService, CustomerServiceProxy customerService) {
-    this.orderService = orderService;
-    this.customerService = customerService;
-  }
+    public OrderHistoryHandlers(OrderServiceProxy orderService, CustomerServiceProxy customerService) {
+        this.orderService = orderService;
+        this.customerService = customerService;
+    }
 
-  public Mono<ServerResponse> getOrderHistory(ServerRequest serverRequest) {
-    String customerId = serverRequest.pathVariable("customerId");
+    public Mono<ServerResponse> getOrderHistory(ServerRequest serverRequest) {
+        String customerId = serverRequest.pathVariable("customerId");
 
-    Mono<Optional<GetCustomerResponse>> customer = customerService.findCustomerById(customerId);
+        Mono<Optional<GetCustomerResponse>> customer = customerService.findCustomerById(customerId);
 
-    Mono<List<GetOrderResponse>> orders = orderService.findOrdersByCustomerId(customerId);
+        Mono<List<GetOrderResponse>> orders = orderService.findOrdersByCustomerId(customerId);
 
-    Mono<Optional<GetCustomerHistoryResponse>> map = Mono
-            .zip(customer, orders)
-            .map(possibleCustomerAndOrders ->
-                    possibleCustomerAndOrders.getT1().map(c -> {
-                      List<GetOrderResponse> os = possibleCustomerAndOrders.getT2();
-                      return new GetCustomerHistoryResponse(c.getCustomerId(), c.getName(), c.getCreditLimit(), os);
-                    }));
-    return map.flatMap(maybe ->
-            maybe.map(c ->
-                    ServerResponse.ok()
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(fromValue(c)))
-                    .orElseGet(() -> ServerResponse.notFound().build()));
-  }
+        Mono<Optional<GetCustomerHistoryResponse>> map = Mono
+                .zip(customer, orders)
+                .map(possibleCustomerAndOrders ->
+                        possibleCustomerAndOrders.getT1().map(c -> {
+                            List<GetOrderResponse> os = possibleCustomerAndOrders.getT2();
+                            return new GetCustomerHistoryResponse(c.getCustomerId(), c.getName(), c.getCreditLimit(), os);
+                        }));
+        return map.flatMap(maybe ->
+                maybe.map(c ->
+                        ServerResponse.ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(fromValue(c)))
+                        .orElseGet(() -> ServerResponse.notFound().build()));
+    }
 }

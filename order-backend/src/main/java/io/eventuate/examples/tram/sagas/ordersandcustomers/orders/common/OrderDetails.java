@@ -8,24 +8,24 @@ import javax.persistence.Embedded;
 @Embeddable
 public class OrderDetails {
 
-  private Long customerId;
+    private Long customerId;
 
-  @Embedded
-  private Money orderTotal;
+    @Embedded
+    private Money orderTotal;
 
-  public OrderDetails() {
-  }
+    public OrderDetails() {
+    }
 
-  public OrderDetails(Long customerId, Money orderTotal) {
-    this.customerId = customerId;
-    this.orderTotal = orderTotal;
-  }
+    public OrderDetails(Long customerId, Money orderTotal) {
+        this.customerId = customerId;
+        this.orderTotal = orderTotal;
+    }
 
-  public Long getCustomerId() {
-    return customerId;
-  }
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-  public Money getOrderTotal() {
-    return orderTotal;
-  }
+    public Money getOrderTotal() {
+        return orderTotal;
+    }
 }

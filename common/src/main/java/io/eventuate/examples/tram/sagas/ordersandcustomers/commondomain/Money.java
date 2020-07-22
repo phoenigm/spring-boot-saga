@@ -13,54 +13,56 @@ import java.math.BigDecimal;
 @Access(AccessType.FIELD)
 public class Money {
 
-  public static final Money ZERO = new Money(0);
-  private BigDecimal amount;
+    public static final Money ZERO = new Money(0);
+    private BigDecimal amount;
 
-  public Money() {
-  }
+    public Money() {
+    }
 
-  public Money(int i) {
-    this.amount = new BigDecimal(i);
-  }
-  public Money(String s) {
-    this.amount = new BigDecimal(s);
-  }
+    public Money(int i) {
+        this.amount = new BigDecimal(i);
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    public Money(String s) {
+        this.amount = new BigDecimal(s);
+    }
 
-  @Override
-  public boolean equals(Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    public Money(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  public Money(BigDecimal amount) {
-    this.amount = amount;
-  }
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public BigDecimal getAmount() {
-    return amount;
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  public void setAmount(BigDecimal amount) {
-    this.amount = amount;
-  }
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-  public boolean isGreaterThanOrEqual(Money other) {
-    return amount.compareTo(other.amount) >= 0;
-  }
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-  public Money add(Money other) {
-    return new Money(amount.add(other.amount));
-  }
-  public Money subtract(Money other) {
-    return new Money(amount.subtract(other.amount));
-  }
+    public boolean isGreaterThanOrEqual(Money other) {
+        return amount.compareTo(other.amount) >= 0;
+    }
+
+    public Money add(Money other) {
+        return new Money(amount.add(other.amount));
+    }
+
+    public Money subtract(Money other) {
+        return new Money(amount.subtract(other.amount));
+    }
 }
